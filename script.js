@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="modal-content">
             <div id="modal-body">${safeAlertMsg}</div>
             <button type="button" id="modal-close" class="modal-btn">
-                <i class="fa-solid fa-check"></i> 朕知道了
+                <i class="fa-solid fa-check"></i> 我知道了
             </button>
         </div>
     </div>
