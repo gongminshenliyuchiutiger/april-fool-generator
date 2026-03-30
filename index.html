@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整人系統生成器 - 教師專屬後台</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- JSZip & FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1><i class="fa-solid fa-wand-magic-sparkles pulse-icon"></i> 愚人節整人網站生成系統</h1>
+            <p>客製化您的跑酷按鈕陷阱！製作完成後一鍵下載打包好的網站。</p>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Settings Form -->
+            <section class="settings-panel glass-panel">
+                <h2><i class="fa-solid fa-sliders"></i> 設定參數</h2>
+                <form id="generator-form">
+                    <div class="form-group">
+                        <label for="input-title"><i class="fa-solid fa-heading"></i> 誘餌標題</label>
+                        <input type="text" id="input-title" value="【限時福利】神祕加分禮包大放送！" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-content"><i class="fa-solid fa-align-left"></i> 內文說明 (支援 HTML)</label>
+                        <div class="html-toolbar">
+                            <button type="button" class="toolbar-btn" data-tag="strong" title="粗體"><i class="fa-solid fa-bold"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="em" title="斜體"><i class="fa-solid fa-italic"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="u" title="底線"><i class="fa-solid fa-underline"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="mark" title="螢光筆"><i class="fa-solid fa-highlighter"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="br" title="換行"><i class="fa-solid fa-level-down-alt"></i></button>
+                            <button type="button" class="toolbar-btn btn-clear" data-target="input-content" title="清除格式"><i class="fa-solid fa-eraser"></i> 移除格式</button>
+                        </div>
+                        <textarea id="input-content" rows="4" required>感謝全體公民神會員的努力！愚人節大放送，只要點擊下方按鈕，即可立即領取 &lt;strong&gt;「免公民神課堂宣誓卡片乙張」&lt;/strong&gt; 或 &lt;strong&gt;「公民神限量簽名照一張」&lt;/strong&gt; 的專屬特權！名額有限，先搶先贏！</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-btn"><i class="fa-regular fa-hand-pointer"></i> 按鈕文字</label>
+                        <input type="text" id="input-btn" value="立即點擊領取加分" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-alert"><i class="fa-solid fa-comment-dots"></i> 點到按鈕後的嘲諷訊息 (支援 HTML)</label>
+                        <div class="html-toolbar">
+                            <button type="button" class="toolbar-btn" data-tag="strong" title="粗體"><i class="fa-solid fa-bold"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="em" title="斜體"><i class="fa-solid fa-italic"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="mark" title="螢光筆"><i class="fa-solid fa-highlighter"></i></button>
+                            <button type="button" class="toolbar-btn" data-tag="br" title="換行"><i class="fa-solid fa-level-down-alt"></i></button>
+                            <button type="button" class="toolbar-btn btn-clear" data-target="input-alert" title="清除格式"><i class="fa-solid fa-eraser"></i> 移除格式</button>
+                        </div>
+                        <textarea id="input-alert" rows="4" required>呵呵愚人節快樂！真厲害，居然點到了！\n\n快點將畫面截圖，然後來找公民神吧。\n祝福一切ALL PASS，順心如意＊平安大吉\n\n— 公民神關心您的身心靈健康^.<</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-copyright"><i class="fa-regular fa-copyright"></i> 版權宣告文字</label>
+                        <input type="text" id="input-copyright" value="Copyright &copy; Liyuchiutiger Gongminshen" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-image"><i class="fa-solid fa-image"></i> 吉祥物圖片上傳</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="input-image" accept="image/png, image/jpeg, image/svg+xml">
+                            <div class="file-upload-display">
+                                <i class="fa-solid fa-upload"></i> <span id="file-name">點擊選擇圖片 (預設使用 LiyuChillGuy.svg)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-theme-select"><i class="fa-solid fa-wand-magic-sparkles"></i> 網站風格主題</label>
+                        <select id="input-theme-select">
+                            <option value="cyberpunk" selected>🌌 賽博龐克 (霓虹藍粉)</option>
+                            <option value="wood">🪵 精緻木紋 (沉穩大地)</option>
+                            <option value="space">🚀 科幻太空 (深邃紫藍)</option>
+                            <option value="crystal">💎 藍色水晶 (清透玻璃)</option>
+                            <option value="forest">🌿 綠色樹林 (自然清新)</option>
+                            <option value="sun">☀️ 紅橘豔陽 (熱情活力)</option>
+                            <option value="blackwhite">🔘 黑白相間 (高對比)</option>
+                            <option value="rainbow">🌈 彩虹祝福 (繽紛多變)</option>
+                            <option value="pinkbubble">🫧 粉紅泡泡 (甜蜜粉嫩)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-star"></i> 卡片內圖示</label>
+                            <div class="icon-picker" id="primary-icon-picker">
+                                <button type="button" class="icon-btn active" data-icon="fa-gift"><i class="fa-solid fa-gift"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-heart"><i class="fa-solid fa-heart"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-star"><i class="fa-solid fa-star"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-cake-candles"><i class="fa-solid fa-cake-candles"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-ghost"><i class="fa-solid fa-ghost"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-hand-pointer"></i> 按鈕內圖示</label>
+                            <div class="icon-picker" id="button-icon-picker">
+                                <button type="button" class="icon-btn active" data-icon="fa-hand-pointer"><i class="fa-solid fa-hand-pointer"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-arrow-pointer"><i class="fa-solid fa-arrow-pointer"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-plus"><i class="fa-solid fa-plus"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-check-double"><i class="fa-solid fa-check-double"></i></button>
+                                <button type="button" class="icon-btn" data-icon="fa-rocket"><i class="fa-solid fa-rocket"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" id="download-btn" class="primary-btn">
+                        <i class="fa-solid fa-file-zipper"></i> 生成並下載整人網站 ZIP
+                    </button>
+                </form>
+            </section>
+
+            <!-- Live Preview -->
+            <section class="preview-panel glass-panel">
+                <h2><i class="fa-solid fa-eye"></i> 即時預覽 (UI 示意)</h2>
+                <div class="preview-frame" id="preview-frame">
+                    <div class="preview-card">
+                        <h1 id="preview-title"><i class="fa-solid fa-gift pulse-icon"></i> 【限時福利】神祕加分禮包大放送！</h1>
+                        <p id="preview-content">感謝同學們的努力！只要點擊下方按鈕，即可立即領取 <strong>「免寫作業卡乙張」</strong> 或 <strong>「平時成績無條件加 10 分」</strong> 的專屬特權！名額有限，先搶先贏！</p>
+                        <div class="button-area">
+                            <button id="preview-btn" class="glow-btn">
+                                <i class="fa-solid fa-hand-pointer"></i> 🎁 立即點擊領取加分
+                            </button>
+                        </div>
+                    </div>
+                    <img id="preview-mascot" src="image/LiyuChillGuy.svg" alt="Preview Mascot">
+                    <div class="preview-footer">
+                        <p id="preview-copyright">Copyright &copy; Liyuchiutiger Gongminshen</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Global System Mascot -->
+    <img src="image/LiyuChillGuy.svg" id="system-mascot" class="mascot" draggable="false" alt="System Mascot">
+
+    <footer class="system-footer">
+        <p>Copyright &copy; Liyuchiutiger Gongminshen</p>
+    </footer>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div id="modal-body"></div>
+            <button type="button" id="modal-close" class="primary-btn">
+                <i class="fa-solid fa-check"></i> 朕知道了
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
